@@ -4,7 +4,8 @@ from django.db.models import Model
 
 
 class Category(models.Model):
-    name= models.CharField(max_length=50)
+    category= models.CharField(max_length=50)
+    color= models.CharField(max_length=10)
 
     @staticmethod
     def get_all_categories():
@@ -15,9 +16,10 @@ class Category(models.Model):
     
 
 class SubCategory(models.Model):
-    name= models.CharField(max_length=50)
+    subcategory= models.CharField(max_length=50)
     category= models.ForeignKey(Category,on_delete=models.CASCADE,default=1 )
-
+    color= models.CharField(max_length=10)
+    
     @staticmethod
     def get_all_subcategories():
         return Category.objects.all()

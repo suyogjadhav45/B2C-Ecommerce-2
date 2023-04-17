@@ -1,9 +1,8 @@
 import React from 'react'
 import { useState } from "react";
-// import { useForm } from "react-hook-form";
 import '../../App.css';
 import Navbar from '../Navbar';
-
+import axios from 'axios';
 
 export default function AddCategory() {
 
@@ -11,12 +10,20 @@ export default function AddCategory() {
 
 
     const [catobj, setcatobj] = useState({ category: '', color: '',subcatallowed:0 });
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(catobj.category==='' || catobj.color==='' || catobj.subcatallowed===0){
-            alert('Please fill all the fields');
-        }
-        console.log(catobj);
+        axios.post("http://localhost:8000/api/category/",{
+            category:catobj.category,
+            color:catobj.color,
+        })
+        .then((response)=>{
+            console.log(response);
+            setcatobj({ category: '', color: '',subcatallowed:0 });
+            // e.target.reset();
+        })
+        .catch((error)=>console.log(error))
     }
 
     const onDiscard = (e) => {

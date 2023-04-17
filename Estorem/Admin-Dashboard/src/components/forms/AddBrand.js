@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from "react";
-// import { useForm } from "react-hook-form";
+import axios from 'axios';
 import '../../App.css';
 import Navbar from '../Navbar';
 
@@ -14,31 +14,55 @@ export default function AddBrand() {
         { id: 4, brand: 'Vendor4' },
     ])
 
+    const getVendors = async () => {
+        const response = await fetch(`http://127.0.0.1:8000/api/vendor/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        const json = await response.json();
+        setvendorarray(json);
+    }
+
 
     const [obj, setobj] = useState({
         productname: '',
-        brand: ''
+        bvendors: ''
     })
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (obj.productname === '' || obj.brand === '') {
-            alert('Please fill all the fields');
-        }
-        console.log(obj);
+        console.log("inside handle submit");
+
+        axios.post("http://localhost:8000/api/brand/", {
+            bname: obj.productname,
+            vendors: obj.bvendors,
+        })
+            .then((response) => {
+                console.log(response);
+                // e.target.reset();
+            })
+            .catch((error) => console.log(error))
     }
+
+
 
     const onDiscard = (e) => {
         e.preventDefault();
         setobj({
             productname: '',
-            brand: ''
+            bvendors: ''
         });
     }
 
     const onChange = (e) => {
         setobj({ ...obj, [e.target.name]: e.target.value });
     }
+
+    useEffect(() => {
+        getVendors();
+    }, [])
 
     return (
         <>
@@ -59,7 +83,7 @@ export default function AddBrand() {
 
                                 <div className='flex flex-col py-2'>
                                     <label>Select Brand Vendor</label>
-                                    <select required name="brand" value={obj.brand} onChange={onChange} className='border px-2 py-2 mt-1 w-full rounded-md'>
+                                    <select required name="bvendors" value={obj.bvendors} onChange={onChange} className='border px-2 py-2 mt-1 w-full rounded-md'>
                                         {vendorarray.map((cat) => (
                                             <option key={cat.id} value={cat.brand}>{cat.brand}</option>
                                         ))}

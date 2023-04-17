@@ -1,6 +1,5 @@
 import React from 'react'
-import { useState } from "react";
-// import { useForm } from "react-hook-form";
+import { useState,useEffect } from "react";
 import '../../App.css';
 import Navbar from '../Navbar';
 import axios from 'axios';
@@ -16,39 +15,53 @@ export default function AddSubcategory() {
     ])
 
 
+    const getCatArray = async () => {
+        const response = await fetch(`http://127.0.0.1:8000/api/category/`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        const json = await response.json();
+        setcatarray(json);
+      }
+
+
     const [obj, setobj] = useState({
         category: '',
         subcategory: '',
         color: '',
-        productcatallowed:0
+        productcatallowed: 0
     })
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (obj.category === '' || obj.subcategory === '' || obj.color === '') {
-            alert('Please fill all the fields');
-        } else {
-            axios.post("http://localhost:8000/api/subcategory/",{
-                name: obj.name,
-                category: obj.category,
-            })
-            .then(response => {
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        }
+        axios.post("http://localhost:8000/api/customer/",{
+            category:obj.category,
+            subcategory:obj.subcategory,
+            color:obj.color,
+        })
+        .then((response)=>{
+            console.log(response);
+            setobj({ category: '', subcategory: '', color: '', productcatallowed: 0 });
+            // e.target.reset();
+        })
+        .catch((error)=>console.log(error))
     }
 
     const onDiscard = (e) => {
         e.preventDefault();
-        setobj({ category: '',subcategory:'',  color: '', productcatallowed:0 });
+        setobj({ category: '', subcategory: '', color: '', productcatallowed: 0 });
     }
 
     const onChange = (e) => {
         setobj({ ...obj, [e.target.name]: e.target.value });
     }
+
+    useEffect(() => {
+        getCatArray();
+    }, [])
+    
 
     return (
         <>
