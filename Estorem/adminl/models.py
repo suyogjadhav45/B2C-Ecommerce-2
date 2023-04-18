@@ -124,7 +124,7 @@ class Invman(models.Model):
     
 class Brand(models.Model):
     bname=models.CharField(max_length=50, default="Nike")
-    #vendors= models.ForeignKey(Vendor,on_delete=models.CASCADE,default=1 )
+    vendors= models.ForeignKey(Vendor,on_delete=models.CASCADE,default=1 )
 
 class Product(models.Model):
     productname = models.CharField(max_length=60)

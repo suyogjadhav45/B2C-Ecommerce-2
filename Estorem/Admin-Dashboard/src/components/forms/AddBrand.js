@@ -37,7 +37,7 @@ export default function AddBrand() {
 
         axios.post("http://localhost:8000/api/brand/", {
             bname: obj.productname,
-            //vendors: obj.bvendors,
+            vendors: obj.bvendors,
         })
             .then((response) => {
                 console.log(response);
