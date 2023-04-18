@@ -69,7 +69,7 @@ const ProductDetails = () => {
         {AllProducts.map((e) => (
           <div key={e.id} className="order-card link hover:transition-all bg-white duration-300 ease-in-out font-poppins font-bold m-0 px-2 py-0">
             <h2>Product #{e.id}</h2>
-            <p>{e.Name}</p>
+            <p>{e.productname}</p>
             <div className="btn flex m-0 p-0">
               <Modal btnname="DETAILS" compinfo={<ViewSingleProduct obj={e} />} />
               <button className="font-poppins font-bold border-2 w-full mr-2 mt-2 mb-2 px-3 rounded-md py-2 bg-tailtertiary hover:bg-tailtertiary3 text-black" onClick={() => navigate("/dashboard/editproduct", { state: { obj: { e } } })}>EDIT</button>
