@@ -6,6 +6,7 @@ from django.db.models import Model
 class Category(models.Model):
     category= models.CharField(max_length=50)
     color= models.CharField(max_length=10)
+    allowed= models.BooleanField(default=False)
 
     @staticmethod
     def get_all_categories():
@@ -19,6 +20,7 @@ class SubCategory(models.Model):
     subcategory= models.CharField(max_length=50)
     category= models.ForeignKey(Category,on_delete=models.CASCADE,default=1 )
     color= models.CharField(max_length=10)
+    allowed= models.BooleanField(default=False)
     
     @staticmethod
     def get_all_subcategories():
